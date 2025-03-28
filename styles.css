@@ -1,0 +1,62 @@
+.header{
+    padding: 20px;
+    text-align: center;
+}
+
+.class-boxes {
+    display: flex; /* Aligns images horizontally */
+    gap: 20px; /* Adds spacing between them */
+    justify-content: center; /* Centers the content */
+  }
+  
+  .class-boxes a {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.class-image {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+    object-position: 70% center;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+}
+
+.class-boxes a::after {
+    content: attr(alt); /* Use alt text as tooltip */
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Define specific hover text for each class */
+.class-boxes a[href="hunter.html"]::after {
+  content: "Hunter";
+}
+.class-boxes a[href="warlock.html"]::after {
+  content: "Warlock";
+}
+.class-boxes a[href="titan.html"]::after {
+  content: "Titan";
+}
+
+.class-boxes a:hover::after {
+  opacity: 1;
+}
+
+.build-submission{
+  padding: 20px;
+  text-align: center;
+}
+  
