@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Destiny 101</title>
+</head>
+    <body>
+        <h2>Build Submission Form</h2>
+        <form action="submitBuild.php" method="post">
+            <label for="buildName">Build Name:</label><br>
+            <input type="text" id="buildName" name="buildName" required><br><br>
+
+            <label for="class">Class:</label><br>
+            <select id="class" name="class" required>
+                <option value="hunter">Hunter</option>
+                <option value="warlock">Warlock</option>
+                <option value="titan">Titan</option>
+            </select><br><br>
+
+            <label for="subclass">Subclass:</label><br>
+            <input type="text" id="subclass" name="subclass" required><br><br>
+
+            <label for="exoticArmor">Exotic Armor:</label><br>
+            <input type="text" id="exoticArmor" name="exoticArmor" required><br><br>
+
+            <label for="description">Description:</label><br>
+            <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+
+            <input class="button" type="submit" value="Submit Build">
+        </form>
+        
+        <div class="footer">    
+            <a href="contactMe.html" class="button">Contact Me</a>
+            <a href="home.html" class="button">Home</a>
+        </div>
+        
+    </body>
+</html>
