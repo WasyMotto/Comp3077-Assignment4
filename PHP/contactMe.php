@@ -21,16 +21,15 @@ if (!$data) {
 }
 
 try {
-    if (isset($data['userID']) && isset($data['buildName']) && isset($data['subclass']) && isset($data['exoticArmor']) && isset($data['description'])) {
-        // Insert into BuildSubmissions Table
-        $stmt = $pdo->prepare("INSERT INTO BuildSubmissions (userID, buildName, subclass, exoticArmor, description) VALUES (:userID, :buildName, :subclass, :exoticArmor, :description)");
+    if (isset($data['userID']) && isset($data['username']) && isset($data['email']) && isset($data['message'])) {
+        // Insert into ContactMessages Table
+        $stmt = $pdo->prepare("INSERT INTO ContactMessages (userID, username, email, message) VALUES (:userID, :username, :email, :message)");
         $stmt->bindParam(':userID', $data['userID']);
-        $stmt->bindParam(':buildName', $data['buildName']);
-        $stmt->bindParam(':subclass', $data['subclass']);
-        $stmt->bindParam(':exoticArmor', $data['exoticArmor']);
-        $stmt->bindParam(':description', $data['description']);
+        $stmt->bindParam(':username', $data['username']);
+        $stmt->bindParam(':email', $data['email']);
+        $stmt->bindParam(':message', $data['message']);
         $stmt->execute();
-        echo json_encode(["success" => "Build submission added successfully."]);
+        echo json_encode(["success" => "Contact message submitted successfully."]);
     } 
     else {
         echo json_encode(["error" => "Invalid data format."]);
