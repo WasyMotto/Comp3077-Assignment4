@@ -49,3 +49,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+
+function changeBackgroundColor() {
+    const selectedColor = document.getElementById("bgColorSelect").value;
+    document.body.style.backgroundColor = selectedColor;
+    localStorage.setItem("adminBackgroundColor", selectedColor); // Save preference
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const bgColorSelect = document.getElementById("bgColorSelect");
+
+    // Function to change the background color and store it
+    function changeBackgroundColor() {
+        const selectedColor = bgColorSelect.value;
+        document.body.style.backgroundColor = selectedColor;
+        localStorage.setItem("adminBackgroundColor", selectedColor); // Save preference
+    }
+
+    // Load saved background color
+    const savedColor = localStorage.getItem("adminBackgroundColor");
+    if (savedColor) {
+        document.body.style.backgroundColor = savedColor;
+        bgColorSelect.value = savedColor;
+    }
+
+    // Listen for changes in the dropdown
+    bgColorSelect.addEventListener("change", changeBackgroundColor);
+});
