@@ -6,14 +6,14 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 ?>
 <main class="container">
-    <h2>Hunter Builds</h2>
-    <p>Explore all submitted Hunter builds. Click any build to view full details.</p>
+    <h2>Warlock Builds</h2>
+    <p>Explore all submitted Warlock builds. Click any build to view full details.</p>
 
     <div class="build-list">
         <?php
         $stmt = $pdo->prepare("SELECT b.*, u.username FROM BuildSubmissions b 
                                 JOIN Users u ON b.userID = u.userID 
-                                WHERE subclass = 'hunter'");
+                                WHERE subclass = 'warlcock'");
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -22,10 +22,12 @@ error_reporting(E_ALL);
         include '../Components/buildCard.php';
     }
     } else {
-        echo "<p>No hunter builds found yet.</p>";
+        echo "<p>No warlock builds found yet.</p>";
     }
 
         ?>
     </div>
 </main>
+
+
 

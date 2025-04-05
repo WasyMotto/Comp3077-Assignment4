@@ -55,70 +55,6 @@
   opacity: 1;
 }
 
-.subclass-boxes {
-  display: flex; /* Aligns images horizontally */
-  gap: 20px; /* Adds spacing between them */
-  justify-content: center; /* Centers the content */
-}
-
-.subclass-boxes a {
-  position: relative;
-  display: inline-block;
-  text-decoration: none;
-}
-
-.subclass-image {
-  width: 300px;
-  height: 400px;
-  object-fit: cover;
-  object-position: 70% 20px;
-  border-radius: 10px;
-  transition: 0.3s ease-in-out;
-}
-
-.subclass-image-prismatic {
-  width: 300px;
-  height: 400px;
-  object-fit: cover;
-  object-position: 90% 20px;
-  border-radius: 10px;
-  transition: 0.3s ease-in-out;
-}
-
-.subclass-boxes a::after {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 5px 10px;
-  font-size: 14px;
-  border-radius: 5px;
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.class-boxes a[href="hunter_void.html"]::after {
-  content: "Void Hunter";
-}
-.class-boxes a[href="hunter_solar.html"]::after {
-  content: "Solar Hunter";
-}
-.class-boxes a[href="hunter_arc.html"]::after {
-  content: "Arc Hunter";
-}
-.class-boxes a[href="hunter_stasis.html"]::after {
-  content: "Stasis Hunter";
-}
-.class-boxes a[href="hunter_strand.html"]::after {
-  content: "Strand Hunter";
-}
-.class-boxes a[href="hunter_prismatic.html"]::after {
-  content: "Prismatic Hunter";
-}
-
 .build-submission{
   padding: 20px;
   text-align: center;
@@ -176,40 +112,6 @@
   border-radius: 5px;
 }
 
-.container-subclass {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.row-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
-#main-container-subclass {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 1200px;
-  gap: 20px;
-}
-
-#image-container-subclass {
-  width: 300px;
-  height: 300px;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
 .loadout-image {
   width: 300px;
   height: 400px;
@@ -219,15 +121,6 @@
   transition: 0.3s ease-in-out;
 }
 
-#image-container-subclass img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-#left-container-subclass, #right-container-subclass {
-  width: 150px;
-  height: 300px;
-}
 
 .help-container {
   max-width: 800px;
