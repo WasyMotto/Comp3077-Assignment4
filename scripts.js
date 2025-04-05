@@ -76,3 +76,18 @@ document.addEventListener("DOMContentLoaded", function () {
     // Listen for changes in the dropdown
     bgColorSelect.addEventListener("change", changeBackgroundColor);
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const themeSelector = document.getElementById("theme");
+    if (!themeSelector) return; // Exit if selector isn't present
+
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    themeSelector.value = savedTheme;
+
+    themeSelector.addEventListener("change", function () {
+        const selected = this.value;
+        document.documentElement.setAttribute("data-theme", selected);
+        localStorage.setItem("theme", selected);
+    });
+});
