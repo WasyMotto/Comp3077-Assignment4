@@ -1,42 +1,58 @@
 <?php
-// Database connection
-$host = "localhost";
-$dbname = "wasylyz_Destiny101";
-$username = "wasylyz_Destiny101";
-$password = "UUzHdf4MysS35GVtQz6d"; 
+session_start();
+require_once '../dbConnect.php'; // includes database connection (PDO)
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die(json_encode(["error" => "Connection failed: " . $e->getMessage()]));
+// Check if the user is logged in
+if (!isset($_SESSION['userID'])) {
+    die("You must be logged in to submit a build.");
 }
 
-// Retrieve JSON payload
-$data = json_decode(file_get_contents('php://input'), true);
+// Check if the form was submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get form data
+    $userID = $_SESSION['userID'];
+    $buildName = $_POST['buildName'];
+    $class = $_POST['class'];
+    $subclass = $_POST['subclass'];
+    $exoticArmor = $_POST['exoticArmor'];
+    $description = $_POST['description'];
 
-// Debugging: Check if data is received
-if (!$data) {
-    die(json_encode(["error" => "No valid data received."]));
-}
-
-try {
-    if (isset($data['userID']) && isset($data['buildName']) && isset($data['subclass']) && isset($data['exoticArmor']) && isset($data['description'])) {
-        // Insert into BuildSubmissions Table
-        $stmt = $pdo->prepare("INSERT INTO BuildSubmissions (userID, buildName, subclass, exoticArmor, description) VALUES (:userID, :buildName, :subclass, :exoticArmor, :description)");
-        $stmt->bindParam(':userID', $data['userID']);
-        $stmt->bindParam(':buildName', $data['buildName']);
-        $stmt->bindParam(':subclass', $data['subclass']);
-        $stmt->bindParam(':exoticArmor', $data['exoticArmor']);
-        $stmt->bindParam(':description', $data['description']);
-        $stmt->execute();
-        echo json_encode(["success" => "Build submission added successfully."]);
-    } 
-    else {
-        echo json_encode(["error" => "Invalid data format."]);
+    // Handle image upload
+    $imagePath = '';
+    if (isset($_FILES['imagePath']) && $_FILES['imagePath']['error'] === UPLOAD_ERR_OK) {
+        // Set image file destination
+        $targetDir = '../Images/';
+        $imageName = basename($_FILES['imagePath']['name']);
+        $imagePath = $targetDir . $imageName;
+        
+        // Move the uploaded image to the desired directory
+        if (!move_uploaded_file($_FILES['imagePath']['tmp_name'], $imagePath)) {
+            die("Error uploading image.");
+        }
     }
 
-} catch (PDOException $e) {
-    die(json_encode(["error" => "Error inserting data: " . $e->getMessage()]));
+    // Insert build data into the database
+    try {
+        $stmt = $pdo->prepare("INSERT INTO buildSubmissions (userID, buildName, class, subclass, exoticArmor, description, imagePath)
+                               VALUES (:userID, :buildName, :class, :subclass, :exoticArmor, :description, :imagePath)");
+        
+        $stmt->bindParam(':userID', $userID);
+        $stmt->bindParam(':buildName', $buildName);
+        $stmt->bindParam(':class', $class);
+        $stmt->bindParam(':subclass', $subclass);
+        $stmt->bindParam(':exoticArmor', $exoticArmor);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':imagePath', $imagePath);
+
+        // Execute the statement
+        $stmt->execute();
+
+        // Redirect after successful submission
+        header('Location: ../Users/user.php');
+        exit();
+
+    } catch (PDOException $e) {
+        die("Error inserting build: " . $e->getMessage());
+    }
 }
 ?>

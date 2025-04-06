@@ -7,11 +7,11 @@
         
         <div class="navbar-right">
         <?php if ($_SERVER['PHP_SELF'] !== '/index.php') : ?>
-                <a href="/index.php" class="button">Home</a>
+                <a href="https://wasylykz.myweb.cs.uwindsor.ca/Comp3077/A41/" class="button">Home</a>
             <?php endif; ?>
-            <a href="/Users/login.php" class="button">Login</a>
-            <a href="/about.html" class="button">About</a>
-            <a href="/help.html" class="button">Help</a>
+            <a href="https://wasylykz.myweb.cs.uwindsor.ca/Comp3077/A41/Users/login.html" class="button">Login</a>
+            <a href="https://wasylykz.myweb.cs.uwindsor.ca/Comp3077/A41/about.php" class="button">About</a>
+            <a href="https://wasylykz.myweb.cs.uwindsor.ca/Comp3077/A41/Help/Help.html" class="button">Help</a>
         </div>
     </nav>
 </header>

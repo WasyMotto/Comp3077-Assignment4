@@ -1,40 +1,47 @@
-<?php
+<?php  
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 session_start();
-require '../includes/db.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+require_once '../dbConnect.php'; // DB connection
 
-    $stmt = $pdo->prepare("SELECT * FROM Users WHERE username = ?");
-    $stmt->execute([$username]);
-    $user = $stmt->fetch();
+try {  
+    $connect = new PDO("mysql:host=$host; dbname=$db", $user, $pass);  
+    $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['userID'] = $user['userID'];
-        $_SESSION['username'] = $user['username'];
-        header("Location: ../Users/user.php"); // Redirect to user page
-        exit;
-    } else {
-        $_SESSION['error'] = "Invalid credentials.";
-    }
-}
-?>
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {  
+        // Debugging: Check POST data
+        echo "Login POST received<br>";
+        print_r($_POST);
+        
+        if(empty($_POST["username"]) || empty($_POST["password"])) {  
+            $message = '<label>All fields are required</label>';  
+        } else {  
+            // Get the user by username only
+            $query = "SELECT * FROM Users WHERE username = :username";
+            $statement = $connect->prepare($query);
+            $statement->execute(['username' => $_POST["username"]]);
+            $user = $statement->fetch(PDO::FETCH_ASSOC);
+            
+            // Debugging: Check if user is found
+            var_dump($user);
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" href="../styles.css">
-</head>
-<body>
-    <h2>Login</h2>
-    <?php if (isset($_SESSION['error'])) echo "<p class='error'>" . $_SESSION['error'] . "</p>"; ?>
-    <form method="post" action="">
-        <input type="text" name="username" placeholder="Username" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <button type="submit">Login</button>
-    </form>
-    <a href="create_account.php">Need an account? Create one here.</a>
-</body>
-</html>
+            if ($user && password_verify($_POST["password"], $user["password"])) {
+                $_SESSION["userID"] = $user["userID"];
+                $_SESSION["username"] = $user["username"];
+                
+                // Debugging: Check session variables
+                var_dump($_SESSION);
+                
+                header("Location: user.php");
+                exit();
+            } else {
+                echo "Incorrect username or password";
+            }
+        }  
+    }  
+} catch(PDOException $error) {  
+    $message = $error->getMessage();  
+    echo "Error: " . $message;  // Debugging: Output any caught errors
+}  
+?>  

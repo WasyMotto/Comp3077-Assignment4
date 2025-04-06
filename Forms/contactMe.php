@@ -1,41 +1,39 @@
 <?php
-// Database connection
-$host = "localhost";
-$dbname = "wasylyz_Destiny101";
-$username = "wasylyz_Destiny101";
-$password = "UUzHdf4MysS35GVtQz6d"; 
+// Include the database connection (replace with your actual DB connection details)
+include('db_connection.php');
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die(json_encode(["error" => "Connection failed: " . $e->getMessage()]));
-}
+// Initialize variables to store form data
+$name = $email = $message = "";
 
-// Retrieve JSON payload
-$data = json_decode(file_get_contents('php://input'), true);
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize and validate input
+    $name = htmlspecialchars($_POST['name']);
+    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) ? $_POST['email'] : '';
+    $message = htmlspecialchars($_POST['message']);
+    
+    if ($email) {
+        try {
+            // Prepare the insert query
+            $query = "INSERT INTO contact_me (username, email, message) VALUES (:name, :email, :message)";
+            $stmt = $pdo->prepare($query);
 
-// Debugging: Check if data is received
-if (!$data) {
-    die(json_encode(["error" => "No valid data received."]));
-}
+            // Bind parameters
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':message', $message);
 
-try {
-    if (isset($data['userID']) && isset($data['username']) && isset($data['email']) && isset($data['message'])) {
-        // Insert into ContactMessages Table
-        $stmt = $pdo->prepare("INSERT INTO ContactMessages (userID, username, email, message) VALUES (:userID, :username, :email, :message)");
-        $stmt->bindParam(':userID', $data['userID']);
-        $stmt->bindParam(':username', $data['username']);
-        $stmt->bindParam(':email', $data['email']);
-        $stmt->bindParam(':message', $data['message']);
-        $stmt->execute();
-        echo json_encode(["success" => "Contact message submitted successfully."]);
-    } 
-    else {
-        echo json_encode(["error" => "Invalid data format."]);
+            // Execute the query
+            if ($stmt->execute()) {
+                echo "<script>alert('Message sent successfully!'); window.location.href = 'thankyou.html';</script>";
+            } else {
+                echo "<script>alert('Error sending message. Please try again later.'); window.location.href = 'contact.html';</script>";
+            }
+        } catch (PDOException $e) {
+            echo "<script>alert('Error: " . $e->getMessage() . "'); window.location.href = 'contact.html';</script>";
+        }
+    } else {
+        echo "<script>alert('Invalid email address. Please provide a valid email.'); window.location.href = 'contact.html';</script>";
     }
-
-} catch (PDOException $e) {
-    die(json_encode(["error" => "Error inserting data: " . $e->getMessage()]));
 }
 ?>

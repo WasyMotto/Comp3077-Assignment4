@@ -1,34 +1,43 @@
 <?php
 session_start();
+include '../Components/header.php';
+require_once '../dbConnect.php'; // Ensure path is correct
+
+// Redirect to login page if user is not logged in
 if (!isset($_SESSION['userID'])) {
     header("Location: login.php");
     exit();
 }
 
-require_once '../config/db.php'; // Update path as needed
-
 $userID = $_SESSION['userID'];
-$username = $_SESSION['username'] ?? 'User';
+$user = $_SESSION['username'] ?? 'User';  // Default to 'User' if no username in session
 
-// Fetch user's builds
-$sql = "SELECT * FROM BuildSubmissions WHERE userID = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $userID);
-$stmt->execute();
-$result = $stmt->get_result();
+// Fetch user's builds using PDO
+try {
+    $sql = "SELECT * FROM buildSubmissions WHERE userID = 11";  // Correct table name and use a placeholder
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();  // Execute query with the userID parameter
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);  // Fetch all results as associative array
+
+    
+} catch (PDOException $e) {
+    // Handle PDO error, if any
+    die("Error fetching builds: " . $e->getMessage());
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($username); ?>'s Dashboard</title>
+    <title><?php echo htmlspecialchars($user); ?>'s Dashboard</title>
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <div class="header">
-        <h1>Welcome, <?php echo htmlspecialchars($username); ?>!</h1>
+        <h1>Welcome, <?php echo htmlspecialchars($user); ?>!</h1>
     </div>
 
     <div class="theme-selector">
@@ -40,7 +49,7 @@ $result = $stmt->get_result();
         </select>
     </div>
 
-    <h2>Your Submitted Builds</h2>
+<h2>Your Submitted Builds</h2>
     <?php if ($result->num_rows > 0): ?>
         <?php while ($row = $result->fetch_assoc()): ?>
             <div class="build-card">

@@ -2,8 +2,6 @@
 session_start();
 require_once '../dbConnect.php'; // DB connection
 include '../Components/header.php';
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 ?>
 <main class="container">
     <h2>Hunter Builds</h2>
@@ -11,9 +9,9 @@ error_reporting(E_ALL);
 
     <div class="build-list">
         <?php
-        $stmt = $pdo->prepare("SELECT b.*, u.username FROM BuildSubmissions b 
+        $stmt = $pdo->prepare("SELECT b.*, u.username FROM buildSubmissions b 
                                 JOIN Users u ON b.userID = u.userID 
-                                WHERE subclass = 'hunter'");
+                                WHERE class = 'hunter'");
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

@@ -1,3 +1,7 @@
+<?php
+include '../Components/header.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,11 +12,11 @@
 </head>
 <body>
 
-  <div class="header">
+  <div class="h2">
     <h1>About Destiny 101</h1>
   </div>
 
-  <div class="content">
+  <div class="container">
     <p>
       Destiny 101 is a fan-made project created to help new and returning Guardians explore creative loadouts and subclass builds in <strong>Destiny 2</strong>. Whether you're a Hunter, Warlock, or Titan, this site offers curated builds across all subclasses—including Prismatic—to help you optimize your playstyle.
     </p>
@@ -38,11 +42,6 @@
       Have feedback or questions? Use the 
       <a href="Forms/contactMe.html" class="button">Contact Me</a> form—I'd love to hear from you.
     </p>
-  </div>
-
-  <div class="footer">
-    <a href="index.html" class="button">Home</a>
-    <a href="Users/user.html" class="button">Sign In</a>
   </div>
 
 </body>

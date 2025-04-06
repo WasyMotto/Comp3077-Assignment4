@@ -11,9 +11,9 @@ error_reporting(E_ALL);
 
     <div class="build-list">
         <?php
-        $stmt = $pdo->prepare("SELECT b.*, u.username FROM BuildSubmissions b 
+        $stmt = $pdo->prepare("SELECT b.*, u.username FROM buildSubmissions b 
                                 JOIN Users u ON b.userID = u.userID 
-                                WHERE subclass = 'titan'");
+                                WHERE class = 'titan'");
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

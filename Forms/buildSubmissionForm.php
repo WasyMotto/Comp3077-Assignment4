@@ -1,3 +1,13 @@
+<?php
+session_start();
+require_once '../dbConnect.php'; // uses PDO
+
+// Check if user is logged in (assuming you use session userID)
+if (!isset($_SESSION['userID'])) {
+    die("You must be logged in to submit a build.");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +18,7 @@
 </head>
     <body>
         <h2>Build Submission Form</h2>
-        <form action="submitBuild.php" method="post">
+        <form action="submitBuild.php" method="post" enctype="multipart/form-data">
             <label for="buildName">Build Name:</label><br>
             <input type="text" id="buildName" name="buildName" required><br><br>
 
@@ -28,14 +38,12 @@
             <label for="description">Description:</label><br>
             <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
 
+             <label for="buildImage">Upload Build Image:</label><br>
+            <input type="file" id="buildImage" name="buildImage" accept="image/*"><br><br>
+
+
             <input class="button" type="submit" value="Submit Build">
-        </form>
-        
-        <div class="footer">    
-            <a href="../contactMe.html" class="button">Contact Me</a>
-            <a href="../Home.html" class="button">Home</a>
-            <a href="../Users/user.html" class="button">Sign In</a>
-        </div>
+        </form> 
         
     </body>
-</html>
+</html> 
